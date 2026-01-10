@@ -9,7 +9,7 @@ Just simple dapp, users enter dapp and faucet , done !
 
 **Tree structure**
 ```
-my-sepolia-faucet-dapp/
+Web3-faucet-dapp/
 ├── contracts/
 │   ├── ApolloToken.sol
 │   └── TokenFaucet.sol
@@ -116,6 +116,7 @@ python3 -m http.server 8000
 http://IP:port
 ex: http://23.88.48.244:8000/
 ```
+
 
 
 
