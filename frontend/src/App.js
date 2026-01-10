@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ethers } from 'ethers';
 import { faucetABI } from './ethereum'; // sẽ tạo file này
 
-const FAUCET_ADDRESS = "THAY_BANG_ADDRESS_FAUCET_SAU_KHI_DEPLOY";
+const FAUCET_ADDRESS = "0x664224E312D5e3Cfd184764D895e37fbc21863f3";
 
 function App() {
   const [account, setAccount] = useState('');
