@@ -1,0 +1,95 @@
+# ════════════════════════════════════════════════════════════════════════
+#                     .gitignore - Bảo mật + Best Practice 2026
+# ════════════════════════════════════════════════════════════════════════
+
+# ── Bảo mật - Secret & Credentials (ƯU TIÊN CAO NHẤT) ──────────────────
+.env
+.env.*
+!.env.example
+!.env.template
+*.secret
+*.key
+*.pem
+*.p12
+*.pfx
+id_rsa
+id_ed25519
+*.credentials
+*.token
+*.apikey
+config.json             # cẩn thận với file này
+service-account*.json
+google-services.json
+firebase.json
+aws-credentials.json
+
+# ── Node.js / JavaScript / TypeScript ──────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log
+.next/
+.nuxt/
+dist/
+build/
+coverage/
+*.log
+*.cache
+.DS_Store
+Thumbs.db
+
+# ── Python ─────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+*.egg-info/
+dist/
+build/
+
+# ── IDE / Editor ───────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+*.swp
+*.swo
+*~
+
+# ── Hệ điều hành / Misc ────────────────────────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# ── Logs & Temporary files ─────────────────────────────────────────────
+logs/
+*.log
+*.logs
+tmp/
+temp/
+*.tmp
+*.bak
+*.backup
+
+# ── Docker & Container ─────────────────────────────────────────────────
+*.dockerignore
+docker-compose.override.yml
+
+# ── Deployment / CI/CD secrets ─────────────────────────────────────────
+*.gitlab-ci-secrets.yml
+*.github/workflows/*.secret.yml
