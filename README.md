@@ -72,13 +72,21 @@ cd ..
 PRIVATE_KEY=0xabc123...your_real_private_key_here
 INFURA_API_KEY=your_infura_or_alchemy_key_if_you_have  # Tùy chọn, nếu dùng Infura/Alchemy
 ```
-**4. Deploy contracts**
+
+**4.Frontend**
+```
+cd frontend
+npx create-react-app .
+npm install ethers
+```
+
+**5. Deploy contracts**
 ```
 npx hardhat clean
 npx hardhat run scripts/deploy.js --network sepolia
 ```
 
-**5. Create sever game (You need open 2 terminal with tmux)**
+**6. Create sever game (You need open 2 terminal with tmux)**
 
 - Allow port
 ```
@@ -96,11 +104,12 @@ node server.js
 cd ~/arm-wrestling-web3/frontend
 python3 -m http.server 8000
 ```
-**6. enter game**
+**7. enter game**
 ```
 http://IP:port
 ex: http://23.88.48.244:8000/
 ```
+
 
 
 
