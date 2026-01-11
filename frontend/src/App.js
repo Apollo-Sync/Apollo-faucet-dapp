@@ -16,7 +16,7 @@ function App() {
       const accounts = await provider.send("eth_requestAccounts", []);
       setAccount(accounts[0]);
     } else {
-      alert("Cài MetaMask!");
+      alert("Please install EVM wallet!");
     }
   }
 
@@ -46,7 +46,7 @@ function App() {
           className="neon-button neon-text" 
           onClick={connectWallet}
         >
-          Connect MetaMask
+          Connect EVM Wallet
         </button>
       ) : (
         <p className="status">
