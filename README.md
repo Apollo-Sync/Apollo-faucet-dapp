@@ -28,7 +28,8 @@ Web3-faucet-dapp/
 │   │   └── ethereum.js   // file chứa address & ABI
 │   └── package.json
 ├── hardhat.config.js
-├── .env
+├── .env ( bảo mật, không up lên )
+├── .gitignore ( bảo vệ các tệp bảo mật như .env)
 ├── package.json
 └── README.md
 ```
@@ -120,6 +121,7 @@ python3 -m http.server 8000
 http://IP:port
 ex: http://23.88.48.244:8000/
 ```
+
 
 
 
