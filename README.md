@@ -24,7 +24,9 @@ Web3-faucet-dapp/
 │   │   └── index.html
 │   ├── src/
 │   │   ├── App.js
+│   │   ├── App.css
 │   │   ├── index.js
+│   │   ├── index.css 
 │   │   └── ethereum.js   // file chứa address & ABI
 │   └── package.json
 ├── hardhat.config.js
@@ -121,6 +123,7 @@ python3 -m http.server 8000
 http://IP:port
 ex: http://23.88.48.244:8000/
 ```
+
 
 
 
