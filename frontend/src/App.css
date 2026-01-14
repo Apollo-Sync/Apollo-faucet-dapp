@@ -153,3 +153,54 @@ body, .app-container {
     margin: 40px 20px;
   }
 }
+/* === Wallet balances ở header (góc phải trên) === */
+.wallet-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;              /* Khoảng cách giữa địa chỉ + ETH + APT */
+  flex-wrap: wrap;        /* Nếu màn hình nhỏ, tự xuống dòng */
+}
+
+.connected {
+  background: rgba(0, 255, 234, 0.08);
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 255, 234, 0.3);
+  font-weight: bold;
+  min-width: 90px;
+  text-align: center;
+}
+
+.eth-balance,
+.token-balance {
+  background: rgba(0, 255, 234, 0.12);
+  padding: 5px 10px;
+  border-radius: 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid rgba(0, 255, 234, 0.4);
+  text-shadow: 0 0 8px rgba(0, 255, 234, 0.7);
+}
+
+/* Phân biệt màu nhẹ để dễ nhận biết */
+.eth-balance {
+  color: #a5d8ff;         /* Xanh dương nhạt cho Sepolia ETH */
+}
+
+.token-balance {
+  color: #00ff9d;         /* Xanh neon sáng cho Apollo Token */
+}
+
+/* Responsive: mobile thì thu gọn hơn */
+@media (max-width: 768px) {
+  .wallet-section {
+    gap: 8px;
+    font-size: 0.85rem;
+  }
+  
+  .connected,
+  .eth-balance,
+  .token-balance {
+    padding: 4px 8px;
+  }
+}

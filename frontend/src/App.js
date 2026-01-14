@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
-import { faucetABI } from './ethereum';
+import { faucetABI, tokenABI, TOKEN_ADDRESS } from './ethereum';
 
 import './App.css';
 
@@ -9,6 +9,8 @@ const FAUCET_ADDRESS = "0x664224E312D5e3Cfd184764D895e37fbc21863f3";
 function App() {
   const [account, setAccount] = useState('');
   const [status, setStatus] = useState('');
+  const [ethBalance, setEthBalance] = useState('0.00');
+  const [tokenBalance, setTokenBalance] = useState('0.00');
 
   async function connectWallet() {
     if (window.ethereum) {
@@ -37,6 +39,37 @@ function App() {
     }
   }
 
+  async function fetchBalances() {
+    if (!account || !window.ethereum) return;
+
+    try {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+
+      // Sepolia ETH balance
+      const ethBal = await provider.getBalance(account);
+      setEthBalance(ethers.formatEther(ethBal).slice(0, 6));
+
+      // Apollo Token balance
+      const tokenContract = new ethers.Contract(TOKEN_ADDRESS, tokenABI, provider);
+      const tokenBalRaw = await tokenContract.balanceOf(account);
+      const decimals = await tokenContract.decimals();  // thường là 18
+      setTokenBalance(ethers.formatUnits(tokenBalRaw, decimals).slice(0, 6));
+    } catch (err) {
+      console.error("Lỗi fetch balance:", err);
+      setEthBalance("Error");
+      setTokenBalance("Error");
+    }
+  }
+
+  useEffect(() => {
+    if (account) {
+      fetchBalances();
+      // Optional: auto refresh mỗi 10s
+      const interval = setInterval(fetchBalances, 10000);
+      return () => clearInterval(interval);
+    }
+  }, [account]);
+
   return (
     <div className="app-container">
       {/* Header với nút Connect ở góc phải */}
@@ -46,9 +79,17 @@ function App() {
         </div>
         <div className="wallet-section">
           {account ? (
-            <span className="connected neon-text">
-              {account.slice(0, 6)}...{account.slice(-4)}
-            </span>
+            <>
+              <span className="connected neon-text">
+                {account.slice(0, 6)}...{account.slice(-4)}
+              </span>
+              <span className="balance neon-text eth-balance">
+                ETH: {ethBalance}
+              </span>
+              <span className="balance neon-text token-balance">
+                APT: {tokenBalance}
+              </span>
+            </>
           ) : (
             <button 
               className="neon-button neon-text connect-btn" 
