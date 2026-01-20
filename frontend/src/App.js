@@ -11,6 +11,11 @@ function App() {
   const [status, setStatus] = useState('');
   const [ethBalance, setEthBalance] = useState('0.00');
   const [tokenBalance, setTokenBalance] = useState('0.00');
+  const [canClaim, setCanClaim] = useState(true);
+  const [timeLeft, setTimeLeft] = useState(0);
+  const [lastClaimTime, setLastClaimTime] = useState(0);
+
+  const COOLDOWN_SECONDS = 24 * 60 * 60; // 24 giờ
 
   async function connectWallet() {
     if (window.ethereum) {
@@ -24,6 +29,7 @@ function App() {
 
   async function requestTokens() {
     if (!account) return alert("Connect wallet trước");
+    if (!canClaim) return;
 
     const provider = new ethers.BrowserProvider(window.ethereum);
     const signer = await provider.getSigner();
@@ -34,6 +40,16 @@ function App() {
       const tx = await faucet.requestTokens();
       await tx.wait();
       setStatus("Thành công! Nhận được 100 APT");
+
+      // Lưu thời gian claim mới và bắt đầu cooldown
+      const now = Math.floor(Date.now() / 1000);
+      localStorage.setItem("lastClaimTime", now.toString());
+      setLastClaimTime(now);
+      setCanClaim(false);
+      setTimeLeft(COOLDOWN_SECONDS);
+
+      // Clear status sau 5 giây để không che countdown
+      setTimeout(() => setStatus(''), 5000);
     } catch (err) {
       setStatus("Lỗi: " + (err.reason || err.message));
     }
@@ -60,12 +76,50 @@ function App() {
   }
 
   useEffect(() => {
+    // Load last claim time từ localStorage
+    const storedTime = localStorage.getItem("lastClaimTime");
+    if (storedTime) {
+      const parsed = parseInt(storedTime);
+      setLastClaimTime(parsed);
+      const now = Math.floor(Date.now() / 1000);
+      const secondsPassed = now - parsed;
+      if (secondsPassed < COOLDOWN_SECONDS) {
+        setCanClaim(false);
+        setTimeLeft(COOLDOWN_SECONDS - secondsPassed);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!canClaim && timeLeft > 0) {
+      const timer = setInterval(() => {
+        setTimeLeft((prev) => {
+          if (prev <= 1) {
+            setCanClaim(true);
+            clearInterval(timer);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [canClaim, timeLeft]);
+
+  useEffect(() => {
     if (account) {
       fetchBalances();
       const interval = setInterval(fetchBalances, 10000);
       return () => clearInterval(interval);
     }
   }, [account]);
+
+  const formatTime = (seconds) => {
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = seconds % 60;
+    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  };
 
   return (
     <div className="app-container">
@@ -110,13 +164,19 @@ function App() {
             </div>
           )}
 
-          <button 
-            className="neon-button neon-text request-btn" 
-            onClick={requestTokens} 
-            disabled={!account}
-          >
-            Request 100 APT
-          </button>
+          {account && canClaim ? (
+            <button 
+              className="neon-button neon-text request-btn" 
+              onClick={requestTokens}
+            >
+              Request 100 APT
+            </button>
+          ) : account && !canClaim ? (
+            <div className="cooldown-section neon-text">
+              <p>Đã claim, vui lòng chờ 24h để claim tiếp.</p>
+              <p>Thời gian còn lại: {formatTime(timeLeft)}</p>
+            </div>
+          ) : null}
 
           {status && <p className="status neon-text">{status}</p>}
         </div>
