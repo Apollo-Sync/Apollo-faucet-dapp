@@ -14,7 +14,9 @@ Just simple dapp, users enter dapp and faucet , done !
 ```
 Web3-faucet-dapp/
 ├── contracts/
-│   ├── ApolloToken.sol
+│   ├── APXFaucet.sol
+│   └── APXToken.sol
+│   └── ApolloToken.sol
 │   └── TokenFaucet.sol
 ├── scripts/
 │   └── deploy.js
@@ -122,6 +124,7 @@ python3 -m http.server 8000
 http://IP:port
 ex: http://23.88.48.244:8000/
 ```
+
 
 
 
