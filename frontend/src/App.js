@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
-import { faucetABI, tokenABI, TOKEN_ADDRESS } from './ethereum';
+import { faucetABI, tokenABI, APT, APX, getFaucetAddress, getTokenAddress } from './ethereum';
 
 import './App.css';
-
-const FAUCET_ADDRESS = "0x664224E312D5e3Cfd184764D895e37fbc21863f3";
 
 function App() {
   const [account, setAccount] = useState('');
   const [status, setStatus] = useState('');
   const [ethBalance, setEthBalance] = useState('0.00');
-  const [tokenBalance, setTokenBalance] = useState('0.00');
-  const [canClaim, setCanClaim] = useState(true);
-  const [timeLeft, setTimeLeft] = useState(0);
-  const [lastClaimTime, setLastClaimTime] = useState(0);
+  const [aptTokenBalance, setAptTokenBalance] = useState('0.00');
+  const [apxTokenBalance, setApxTokenBalance] = useState('0.00');
+  const [selectedToken, setSelectedToken] = useState('APT'); // 'APT' hoặc 'APX'
+  
+  // Cooldown riêng cho từng token
+  const [canClaimAPT, setCanClaimAPT] = useState(true);
+  const [canClaimAPX, setCanClaimAPX] = useState(true);
+  const [timeLeftAPT, setTimeLeftAPT] = useState(0);
+  const [timeLeftAPX, setTimeLeftAPX] = useState(0);
+  const [lastClaimTimeAPT, setLastClaimTimeAPT] = useState(0);
+  const [lastClaimTimeAPX, setLastClaimTimeAPX] = useState(0);
 
   const COOLDOWN_SECONDS = 24 * 60 * 60; // 24 giờ
 
@@ -22,6 +27,16 @@ function App() {
       const provider = new ethers.BrowserProvider(window.ethereum);
       const accounts = await provider.send("eth_requestAccounts", []);
       setAccount(accounts[0]);
+      
+      // Switch sang Sepolia nếu cần (tự động khi connect)
+      try {
+        const network = await provider.getNetwork();
+        if (Number(network.chainId) !== 11155111) {
+          await switchToSepolia();
+        }
+      } catch (err) {
+        console.error("Auto-switch network error:", err);
+      }
     } else {
       alert("Please install EVM wallet!");
     }
@@ -62,8 +77,10 @@ function App() {
     }
   }
 
-  async function requestTokens() {
+  async function requestTokens(tokenType) {
     if (!account) return alert("Connect wallet trước");
+    
+    const canClaim = tokenType === 'APT' ? canClaimAPT : canClaimAPX;
     if (!canClaim) return;
 
     // Check và switch sang Sepolia nếu cần (không thông báo)
@@ -84,20 +101,31 @@ function App() {
 
     const provider = new ethers.BrowserProvider(window.ethereum);
     const signer = await provider.getSigner();
-    const faucet = new ethers.Contract(FAUCET_ADDRESS, faucetABI, signer);
+    const faucetAddress = getFaucetAddress(tokenType);
+    const faucet = new ethers.Contract(faucetAddress, faucetABI, signer);
 
     try {
-      setStatus("Đang gửi transaction...");
+      setStatus(`Đang gửi transaction cho ${tokenType}...`);
       const tx = await faucet.requestTokens();
       await tx.wait();
-      setStatus("Thành công! Nhận được 100 APT");
+      
+      const tokenConfig = tokenType === 'APT' ? APT : APX;
+      setStatus(`Thành công! Nhận được 100 ${tokenConfig.token.symbol}`);
 
-      // Lưu thời gian claim mới và bắt đầu cooldown
+      // Lưu thời gian claim mới và bắt đầu cooldown cho token này
       const now = Math.floor(Date.now() / 1000);
-      localStorage.setItem("lastClaimTime", now.toString());
-      setLastClaimTime(now);
-      setCanClaim(false);
-      setTimeLeft(COOLDOWN_SECONDS);
+      const key = `lastClaimTime${tokenType}`;
+      localStorage.setItem(key, now.toString());
+      
+      if (tokenType === 'APT') {
+        setLastClaimTimeAPT(now);
+        setCanClaimAPT(false);
+        setTimeLeftAPT(COOLDOWN_SECONDS);
+      } else {
+        setLastClaimTimeAPX(now);
+        setCanClaimAPX(false);
+        setTimeLeftAPX(COOLDOWN_SECONDS);
+      }
 
       // Clear status sau 5 giây
       setTimeout(() => setStatus(''), 5000);
@@ -115,38 +143,60 @@ function App() {
       const ethBal = await provider.getBalance(account);
       setEthBalance(ethers.formatEther(ethBal).slice(0, 6));
 
-      const tokenContract = new ethers.Contract(TOKEN_ADDRESS, tokenABI, provider);
-      const tokenBalRaw = await tokenContract.balanceOf(account);
-      const decimals = await tokenContract.decimals();
-      setTokenBalance(ethers.formatUnits(tokenBalRaw, decimals).slice(0, 6));
+      // Fetch APT balance
+      const aptTokenContract = new ethers.Contract(getTokenAddress('APT'), tokenABI, provider);
+      const aptBalRaw = await aptTokenContract.balanceOf(account);
+      const aptDecimals = await aptTokenContract.decimals();
+      setAptTokenBalance(ethers.formatUnits(aptBalRaw, aptDecimals).slice(0, 6));
+
+      // Fetch APX balance
+      const apxTokenContract = new ethers.Contract(getTokenAddress('APX'), tokenABI, provider);
+      const apxBalRaw = await apxTokenContract.balanceOf(account);
+      const apxDecimals = await apxTokenContract.decimals();
+      setApxTokenBalance(ethers.formatUnits(apxBalRaw, apxDecimals).slice(0, 6));
     } catch (err) {
       console.error("Lỗi fetch balance:", err);
       setEthBalance("Error");
-      setTokenBalance("Error");
+      setAptTokenBalance("Error");
+      setApxTokenBalance("Error");
     }
   }
 
+  // useEffect load cooldown APT
   useEffect(() => {
-    // Load last claim time từ localStorage
-    const storedTime = localStorage.getItem("lastClaimTime");
-    if (storedTime) {
-      const parsed = parseInt(storedTime);
-      setLastClaimTime(parsed);
+    const storedTimeAPT = localStorage.getItem("lastClaimTimeAPT");
+    if (storedTimeAPT) {
+      const parsed = parseInt(storedTimeAPT);
+      setLastClaimTimeAPT(parsed);
       const now = Math.floor(Date.now() / 1000);
       const secondsPassed = now - parsed;
       if (secondsPassed < COOLDOWN_SECONDS) {
-        setCanClaim(false);
-        setTimeLeft(COOLDOWN_SECONDS - secondsPassed);
+        setCanClaimAPT(false);
+        setTimeLeftAPT(COOLDOWN_SECONDS - secondsPassed);
+      }
+    }
+
+    // Load cooldown APX
+    const storedTimeAPX = localStorage.getItem("lastClaimTimeAPX");
+    if (storedTimeAPX) {
+      const parsed = parseInt(storedTimeAPX);
+      setLastClaimTimeAPX(parsed);
+      const now = Math.floor(Date.now() / 1000);
+      const secondsPassed = now - parsed;
+      if (secondsPassed < COOLDOWN_SECONDS) {
+        setCanClaimAPX(false);
+        setTimeLeftAPX(COOLDOWN_SECONDS - secondsPassed);
       }
     }
   }, []);
 
+  // useEffect timer APT
   useEffect(() => {
-    if (!canClaim && timeLeft > 0) {
+    if (!canClaimAPT && timeLeftAPT > 0) {
       const timer = setInterval(() => {
-        setTimeLeft((prev) => {
+        setTimeLeftAPT((prev) => {
           if (prev <= 1) {
-            setCanClaim(true);
+            setCanClaimAPT(true);
             clearInterval(timer);
             return 0;
           }
@@ -155,7 +205,24 @@ function App() {
       }, 1000);
       return () => clearInterval(timer);
     }
-  }, [canClaim, timeLeft]);
+  }, [canClaimAPT, timeLeftAPT]);
+
+  // useEffect timer APX
+  useEffect(() => {
+    if (!canClaimAPX && timeLeftAPX > 0) {
+      const timer = setInterval(() => {
+        setTimeLeftAPX((prev) => {
+          if (prev <= 1) {
+            setCanClaimAPX(true);
+            clearInterval(timer);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [canClaimAPX, timeLeftAPX]);
 
   useEffect(() => {
     if (account) {
@@ -171,6 +238,14 @@ function App() {
     const s = seconds % 60;
     return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   };
+
+  // Helper lấy canClaim và timeLeft theo selectedToken
+  const getCanClaim = () => selectedToken === 'APT' ? canClaimAPT : canClaimAPX;
+  const getTimeLeft = () => selectedToken === 'APT' ? timeLeftAPT : timeLeftAPX;
+
+  // Helper lấy token balance theo selectedToken
+  const getTokenBalance = () => selectedToken === 'APT' ? aptTokenBalance : apxTokenBalance;
+  const getTokenSymbol = () => selectedToken === 'APT' ? 'APT' : 'APX';
 
   return (
     <div className="app-container">
@@ -195,12 +270,27 @@ function App() {
         </div>
       </header>
 
-      {/* Main content - card chính giờ chứa cả balances */}
+      {/* Main content - card chính giờ chứa cả balances và selector */}
       <main className="main-content">
         <div className="card">
           <h1 className="neon-text">Apollo Token Faucet (Sepolia)</h1>
 
-          {/* Mục Your Balance mới - đặt ngay dưới tiêu đề */}
+          {/* Token Selector mới - dropdown để chọn APT/APX */}
+          {account && (
+            <div className="token-selector neon-text">
+              <label>Select Token: </label>
+              <select 
+                value={selectedToken} 
+                onChange={(e) => setSelectedToken(e.target.value)}
+                className="neon-select"
+              >
+                <option value="APT">APT</option>
+                <option value="APX">APX</option>
+              </select>
+            </div>
+          )}
+
+          {/* Mục Your Balance cập nhật - hiển thị cả APT và APX */}
           {account && (
             <div className="balance-section neon-text">
               <div className="balance-title">Your Balance</div>
@@ -209,23 +299,30 @@ function App() {
                   ETH: {ethBalance}
                 </span>
                 <span className="balance-item token-balance">
-                  APT: {tokenBalance}
+                  {getTokenSymbol()}: {getTokenBalance()}
+                </span>
+                {/* Hiển thị cả hai balance để user thấy rõ */}
+                <span className="balance-item apt-balance">
+                  APT: {aptTokenBalance}
+                </span>
+                <span className="balance-item apx-balance">
+                  APX: {apxTokenBalance}
                 </span>
               </div>
             </div>
           )}
 
-          {account && canClaim ? (
+          {account && getCanClaim() ? (
             <button 
               className="neon-button neon-text request-btn" 
-              onClick={requestTokens}
+              onClick={() => requestTokens(selectedToken)}
             >
-              Request 100 APT
+              Request 100 {getTokenSymbol()}
             </button>
-          ) : account && !canClaim ? (
+          ) : account && !getCanClaim() ? (
             <div className="cooldown-section neon-text">
-              <p>Đã claim, vui lòng chờ 24h để claim tiếp.</p>
-              <p>Thời gian còn lại: {formatTime(timeLeft)}</p>
+              <p>Đã claim {getTokenSymbol()}, vui lòng chờ 24h để claim tiếp.</p>
+              <p>Thời gian còn lại: {formatTime(getTimeLeft())}</p>
             </div>
           ) : null}
 

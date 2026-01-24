@@ -305,6 +305,84 @@
       "artifacts": [
         "TokenFaucet"
       ]
+    },
+    "/root/Web3-faucet-dapp/contracts/APXFaucet.sol": {
+      "lastModificationDate": 1769269026912,
+      "contentHash": "c5bc65ebd48368094293316a86e95d79",
+      "sourceName": "contracts/APXFaucet.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/ERC20.sol",
+        "@openzeppelin/contracts/access/Ownable.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.24"
+      ],
+      "artifacts": [
+        "APXFaucet"
+      ]
+    },
+    "/root/Web3-faucet-dapp/contracts/APXToken.sol": {
+      "lastModificationDate": 1769268896507,
+      "contentHash": "c1da32243c53403c6e28b20070b1e993",
+      "sourceName": "contracts/APXToken.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/ERC20.sol",
+        "@openzeppelin/contracts/access/Ownable.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.24"
+      ],
+      "artifacts": [
+        "APXToken"
+      ]
     }
   }
 }

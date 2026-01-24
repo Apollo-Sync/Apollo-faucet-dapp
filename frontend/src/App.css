@@ -294,3 +294,22 @@ body, .app-container {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.6; }
 }
+.token-selector {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.neon-select {
+  background: #000;
+  color: #00ff88;
+  border: 1px solid #00ff88;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+.balance-items {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+.balance-item {
+  margin: 0.5rem;
+}
