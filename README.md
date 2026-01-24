@@ -1,10 +1,10 @@
 **Faucet Contracts**
 ```
-0x664224E312D5e3Cfd184764D895e37fbc21863f3
+0x73E40Dc18430720c0C54cABD3d4579C89F74D1Ce
 ```
 **Token Contracts**
 ```
-0xE7230416f9365b9429db23142A654f5Fb982E4c7
+0x5B0Ca393d67797Bc7130ce54f038304cfA63CA8C
 ```
 **What is this dapp ?**
 ```
@@ -123,6 +123,7 @@ python3 -m http.server 8000
 http://IP:port
 ex: http://23.88.48.244:8000/
 ```
+
 
 
 
