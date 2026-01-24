@@ -26,7 +26,17 @@ contract TokenFaucet is Ownable {
 
         emit TokensRequested(msg.sender, amount);
     }
-
+    function getRemainingTime(address user) external view returns (uint256) {
+        uint256 last = lastRequest[user];
+        if (last == 0) {
+            return 0; // chưa claim bao giờ → claim được ngay
+        }
+        uint256 endTime = last + waitTime;
+        if (block.timestamp >= endTime) {
+            return 0;
+        }
+        return endTime - block.timestamp;
+    }
     // Owner có thể nạp thêm token vào faucet
     function fundFaucet(uint256 _amount) external onlyOwner {
         token.transferFrom(msg.sender, address(this), _amount);

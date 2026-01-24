@@ -27,9 +27,60 @@ function App() {
     }
   }
 
+  async function switchToSepolia() {
+    try {
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: "0xaa36a7" }], // Sepolia chainId hex
+      });
+    } catch (switchError) {
+      if (switchError.code === 4902) {
+        try {
+          await window.ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [
+              {
+                chainId: "0xaa36a7",
+                chainName: "Sepolia Test Network",
+                nativeCurrency: {
+                  name: "ETH",
+                  symbol: "ETH",
+                  decimals: 18,
+                },
+                rpcUrls: ["https://rpc.sepolia.org"],
+                blockExplorerUrls: ["https://sepolia.etherscan.io"],
+              },
+            ],
+          });
+        } catch (addError) {
+          console.error("Add Sepolia error:", addError);
+          // Không alert để giữ sạch, chỉ log
+        }
+      } else {
+        console.error("Switch error:", switchError);
+      }
+    }
+  }
+
   async function requestTokens() {
     if (!account) return alert("Connect wallet trước");
     if (!canClaim) return;
+
+    // Check và switch sang Sepolia nếu cần (không thông báo)
+    if (window.ethereum) {
+      try {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const network = await provider.getNetwork();
+        if (Number(network.chainId) !== 11155111) {
+          await switchToSepolia();
+          // Đợi ngắn để MetaMask update network
+          await new Promise(resolve => setTimeout(resolve, 1500));
+        }
+      } catch (err) {
+        console.error("Error checking/switching network:", err);
+        // Không alert, cứ tiếp tục (nếu switch fail thì tx sẽ fail tự nhiên)
+      }
+    }
 
     const provider = new ethers.BrowserProvider(window.ethereum);
     const signer = await provider.getSigner();
@@ -48,7 +99,7 @@ function App() {
       setCanClaim(false);
       setTimeLeft(COOLDOWN_SECONDS);
 
-      // Clear status sau 5 giây để không che countdown
+      // Clear status sau 5 giây
       setTimeout(() => setStatus(''), 5000);
     } catch (err) {
       setStatus("Lỗi: " + (err.reason || err.message));

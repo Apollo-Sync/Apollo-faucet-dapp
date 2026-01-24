@@ -6,7 +6,7 @@ export const faucetABI = [
 ];
 
 // === Thêm cho ApolloToken (ERC-20) ===
-export const TOKEN_ADDRESS = "0xE7230416f9365b9429db23142A654f5Fb982E4c7";
+export const TOKEN_ADDRESS = "0x5B0Ca393d67797Bc7130ce54f038304cfA63CA8C";
 
 export const tokenABI = [
   "function balanceOf(address owner) view returns (uint256)",
