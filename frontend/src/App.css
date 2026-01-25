@@ -1,6 +1,19 @@
-/* Neon glow effect for text */
+/* === Global & Body === */
+body, .app-container {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: #0a001a;
+  font-family: 'Orbitron', 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  color: #e0e0e0;
+}
+
+/* Neon glow text */
 .neon-text {
-  color: #00ffea; /* Cyan neon */
+  color: #00ffea;
   text-shadow: 
     0 0 7px #fff,
     0 0 10px #fff,
@@ -40,40 +53,7 @@
   transform: translateY(-3px) scale(1.05);
 }
 
-/* Card container (cho phần faucet chính) */
-.card {
-  background: rgba(10, 10, 30, 0.6);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(0, 255, 234, 0.3);
-  border-radius: 20px;
-  padding: 40px;
-  max-width: 520px;
-  margin: 60px auto;
-  box-shadow: 0 0 40px rgba(0, 255, 234, 0.25);
-}
-
-/* Status text or balance */
-.status {
-  font-size: 1.1rem;
-  margin: 20px 0;
-  text-align: center;
-}
-
-/* === Thêm phần toàn trang + header/footer === */
-
-/* Body/container chính */
-body, .app-container {
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-  background: #0a001a; /* Tím tối cyberpunk */
-  font-family: 'Orbitron', 'Segoe UI', sans-serif; /* Font neon nếu bạn có, fallback */
-  display: flex;
-  flex-direction: column;
-  overflow-x: hidden;
-}
-
-/* Header (đã có từ trước, fixed top) */
+/* Header fixed top */
 .header {
   position: fixed;
   top: 0;
@@ -94,234 +74,18 @@ body, .app-container {
   font-size: 1.6rem;
 }
 
-/* Main content - đẩy xuống để tránh header che */
+/* Main content với sidebar phải */
 .main-content {
   flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 100px 20px 140px; /* Khoảng trống dưới cho footer */
-}
-
-/* Footer chỉ icon, fixed bottom */
-.footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 1.2rem 0;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(12px);
-  border-top: 1px solid rgba(0, 255, 234, 0.2);
-  z-index: 90;
-}
-
-.social-icons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 3rem; /* Khoảng cách giữa icon - điều chỉnh nếu muốn sát hơn */
-}
-
-.social-icons a {
-  color: #00ffea;
-  font-size: 2.2rem; /* Kích thước icon lớn, neon nổi bật */
-  text-decoration: none;
-  transition: all 0.4s ease;
-  text-shadow: 0 0 10px #00ffea, 0 0 20px #00ffea;
-  display: inline-block;
-}
-
-.social-icons a:hover {
-  transform: translateY(-6px) scale(1.15);
-  text-shadow: 0 0 20px #00ffea, 0 0 40px #00ffea, 0 0 60px #00ffea;
-  color: #ffffff;
-}
-
-/* Responsive nhỏ cho mobile */
-@media (max-width: 768px) {
-  .social-icons {
-    gap: 2rem;
-  }
-  
-  .social-icons a {
-    font-size: 1.8rem;
-  }
-  
-  .card {
-    padding: 30px;
-    margin: 40px 20px;
-  }
-}
-/* === Wallet balances ở header (góc phải trên) === */
-.wallet-section {
-  display: flex;
-  align-items: center;
-  gap: 12px;              /* Khoảng cách giữa địa chỉ + ETH + APT */
-  flex-wrap: wrap;        /* Nếu màn hình nhỏ, tự xuống dòng */
-}
-
-.connected {
-  background: rgba(0, 255, 234, 0.08);
-  padding: 6px 12px;
-  border-radius: 20px;
-  border: 1px solid rgba(0, 255, 234, 0.3);
-  font-weight: bold;
-  min-width: 90px;
-  text-align: center;
-}
-
-.eth-balance,
-.token-balance {
-  background: rgba(0, 255, 234, 0.12);
-  padding: 5px 10px;
-  border-radius: 16px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  border: 1px solid rgba(0, 255, 234, 0.4);
-  text-shadow: 0 0 8px rgba(0, 255, 234, 0.7);
-}
-
-/* Phân biệt màu nhẹ để dễ nhận biết */
-.eth-balance {
-  color: #a5d8ff;         /* Xanh dương nhạt cho Sepolia ETH */
-}
-
-.token-balance {
-  color: #00ff9d;         /* Xanh neon sáng cho Apollo Token */
-}
-
-/* Responsive: mobile thì thu gọn hơn */
-@media (max-width: 768px) {
-  .wallet-section {
-    gap: 8px;
-    font-size: 0.85rem;
-  }
-  
-  .connected,
-  .eth-balance,
-  .token-balance {
-    padding: 4px 8px;
-  }
-}
-/* Balance section trong card chính */
-.balance-section {
-  background: rgba(0, 255, 234, 0.08);
-  border: 1px solid rgba(0, 255, 234, 0.35);
-  border-radius: 16px;
-  padding: 16px;
-  margin: 20px 0;
-  text-align: center;
-  box-shadow: 0 0 25px rgba(0, 255, 234, 0.2);
-  backdrop-filter: blur(8px);
-}
-
-.balance-title {
-  font-size: 1.1rem;
-  font-weight: bold;
-  color: #00ffea;
-  margin-bottom: 12px;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  text-shadow: 0 0 10px #00ffea;
-}
-
-.balance-items {
-  display: flex;
-  justify-content: center;
-  gap: 40px; /* Khoảng cách giữa ETH và APT */
-  flex-wrap: wrap;
-}
-
-.balance-item {
-  font-size: 1.2rem;
-  font-weight: 600;
-  padding: 8px 16px;
-  border-radius: 12px;
-  background: rgba(0, 0, 0, 0.3);
-  min-width: 140px;
-}
-
-/* Responsive mobile */
-@media (max-width: 768px) {
-  .balance-items {
-    flex-direction: column;
-    gap: 16px;
-  }
-  
-  .balance-section {
-    padding: 12px;
-    margin: 16px 0;
-  }
-}
-/* Cooldown section - hiển thị khi đang chờ 24h */
-.cooldown-section {
-  background: rgba(255, 69, 0, 0.12); /* Màu cam đỏ nhạt để nổi bật "chờ" */
-  border: 1px solid rgba(255, 69, 0, 0.5);
-  border-radius: 16px;
-  padding: 20px;
-  margin: 24px 0;
-  text-align: center;
-  box-shadow: 0 0 25px rgba(255, 69, 0, 0.3);
-  backdrop-filter: blur(8px);
-}
-
-.cooldown-section p {
-  margin: 12px 0;
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-
-.cooldown-section p:first-child {
-  color: #ff4500; /* Màu cam đỏ nổi bật */
-  text-shadow: 0 0 10px #ff4500;
-}
-
-.cooldown-section p:last-child {
-  color: #00ffea; /* Giữ neon cyan cho thời gian countdown */
-  font-size: 1.4rem;
-  letter-spacing: 2px;
-  text-shadow: 0 0 15px #00ffea;
-}
-
-/* Optional: Làm cho countdown nhấp nháy nhẹ khi gần hết giờ */
-.cooldown-section p:last-child::after {
-  content: '';
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
-}
-.token-selector {
-  margin-bottom: 1rem;
-  text-align: center;
-}
-.neon-select {
-  background: #000;
-  color: #00ff88;
-  border: 1px solid #00ff88;
-  padding: 0.5rem;
-  border-radius: 4px;
-}
-.balance-items {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-}
-.balance-item {
-  margin: 0.5rem;
-}
-.main-content {
   display: flex;
   justify-content: flex-end;
   gap: 20px;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 100px 20px 140px; /* Tránh che bởi header & footer */
 }
 
+/* Balance sidebar (góc phải) */
 .balance-sidebar {
   width: 220px;
   background: rgba(0, 0, 0, 0.4);
@@ -345,7 +109,128 @@ body, .app-container {
   font-size: 1rem;
 }
 
+/* Card chính (faucet) */
 .card {
   flex: 1;
   max-width: 600px;
+  background: rgba(10, 10, 30, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 255, 234, 0.3);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 0 40px rgba(0, 255, 234, 0.25);
+}
+
+/* Token selector */
+.token-selector {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.neon-select {
+  background: #000;
+  color: #00ff88;
+  border: 1px solid #00ff88;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+/* Cooldown */
+.cooldown-section {
+  background: rgba(255, 69, 0, 0.12);
+  border: 1px solid rgba(255, 69, 0, 0.5);
+  border-radius: 16px;
+  padding: 20px;
+  margin: 24px 0;
+  text-align: center;
+  box-shadow: 0 0 25px rgba(255, 69, 0, 0.3);
+  backdrop-filter: blur(8px);
+}
+
+.cooldown-section p {
+  margin: 12px 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.cooldown-section p:first-child {
+  color: #ff4500;
+  text-shadow: 0 0 10px #ff4500;
+}
+
+.cooldown-section p:last-child {
+  color: #00ffea;
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+  text-shadow: 0 0 15px #00ffea;
+}
+
+/* Status */
+.status {
+  font-size: 1.1rem;
+  margin: 20px 0;
+  text-align: center;
+}
+
+/* Footer fixed bottom */
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.2rem 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(0, 255, 234, 0.2);
+  z-index: 90;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+}
+
+.social-icons a {
+  color: #00ffea;
+  font-size: 2.2rem;
+  text-decoration: none;
+  transition: all 0.4s ease;
+  text-shadow: 0 0 10px #00ffea, 0 0 20px #00ffea;
+}
+
+.social-icons a:hover {
+  transform: translateY(-6px) scale(1.15);
+  text-shadow: 0 0 20px #00ffea, 0 0 40px #00ffea, 0 0 60px #00ffea;
+  color: #ffffff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .main-content {
+    flex-direction: column;
+    align-items: center;
+    padding: 80px 15px 120px;
+  }
+
+  .balance-sidebar {
+    width: 90%;
+    position: static;
+    margin-bottom: 20px;
+  }
+
+  .card {
+    padding: 30px;
+    max-width: 100%;
+  }
+
+  .social-icons {
+    gap: 2rem;
+  }
+
+  .social-icons a {
+    font-size: 1.8rem;
+  }
 }
