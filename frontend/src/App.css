@@ -313,3 +313,39 @@ body, .app-container {
 .balance-item {
   margin: 0.5rem;
 }
+.main-content {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.balance-sidebar {
+  width: 220px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid #00ffff;
+  border-radius: 12px;
+  padding: 16px;
+  position: sticky;
+  top: 20px;
+  height: fit-content;
+  text-align: center;
+}
+
+.balance-sidebar .balance-title {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  color: #00ffff;
+}
+
+.balance-sidebar .balance-items div {
+  margin: 8px 0;
+  font-size: 1rem;
+}
+
+.card {
+  flex: 1;
+  max-width: 600px;
+}
