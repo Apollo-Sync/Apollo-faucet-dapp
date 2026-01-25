@@ -29,6 +29,10 @@ Web3-faucet-dapp/
 │   │   │   ├── FaucetCard.jsx
 │   │   │   ├── Footer.jsx
 │   │   │   └── Header.jsx
+│   │   │   ├── BalanceSidebar.css
+│   │   │   ├── FaucetCard.css
+│   │   │   ├── Footer.css
+│   │   │   └── Header.css
 │   │   ├── App.jsx
 │   │   ├── App.css
 │   │   ├── index.js
@@ -129,6 +133,7 @@ python3 -m http.server 8000
 http://IP:port
 ex: http://23.88.48.244:8000/
 ```
+
 
 
 
