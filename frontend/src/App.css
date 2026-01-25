@@ -1,9 +1,10 @@
-/* === Global & Body === */
+/* App.css - Global styles, layout, neon base, responsive */
+
 body, .app-container {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background: #0a001a;
+  background: #0a001a; /* Tím tối cyberpunk */
   font-family: 'Orbitron', 'Segoe UI', sans-serif;
   display: flex;
   flex-direction: column;
@@ -11,7 +12,7 @@ body, .app-container {
   color: #e0e0e0;
 }
 
-/* Neon glow text */
+/* Neon glow effect for text - dùng chung nhiều nơi */
 .neon-text {
   color: #00ffea;
   text-shadow: 
@@ -31,7 +32,7 @@ body, .app-container {
   to   { text-shadow: 0 0 20px #fff, 0 0 30px #0fa, 0 0 40px #0fa, 0 0 50px #0fa; }
 }
 
-/* Neon button */
+/* Neon button - dùng chung */
 .neon-button {
   background: transparent;
   border: 2px solid #00ffea;
@@ -53,28 +54,7 @@ body, .app-container {
   transform: translateY(-3px) scale(1.05);
 }
 
-/* Header fixed top */
-.header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: 1rem 2rem;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(0, 255, 234, 0.2);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 100;
-}
-
-.header-left h2 {
-  margin: 0;
-  font-size: 1.6rem;
-}
-
-/* Main content với sidebar phải */
+/* Main layout */
 .main-content {
   flex: 1;
   display: flex;
@@ -82,155 +62,14 @@ body, .app-container {
   gap: 20px;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 100px 20px 140px; /* Tránh che bởi header & footer */
+  padding: 100px 20px 140px; /* Tránh che header & footer */
 }
 
-/* Balance sidebar (góc phải) */
-.balance-sidebar {
-  width: 220px;
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid #00ffff;
-  border-radius: 12px;
-  padding: 16px;
-  position: sticky;
-  top: 20px;
-  height: fit-content;
-  text-align: center;
-}
-
-.balance-sidebar .balance-title {
-  font-size: 1.2rem;
-  margin-bottom: 12px;
-  color: #00ffff;
-}
-
-.balance-sidebar .balance-items div {
-  margin: 8px 0;
-  font-size: 1rem;
-}
-
-/* Card chính (faucet) */
-.card {
-  flex: 1;
-  max-width: 600px;
-  background: rgba(10, 10, 30, 0.6);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(0, 255, 234, 0.3);
-  border-radius: 20px;
-  padding: 40px;
-  box-shadow: 0 0 40px rgba(0, 255, 234, 0.25);
-}
-
-/* Token selector */
-.token-selector {
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-
-.neon-select {
-  background: #000;
-  color: #00ff88;
-  border: 1px solid #00ff88;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  font-size: 1rem;
-}
-
-/* Cooldown */
-.cooldown-section {
-  background: rgba(255, 69, 0, 0.12);
-  border: 1px solid rgba(255, 69, 0, 0.5);
-  border-radius: 16px;
-  padding: 20px;
-  margin: 24px 0;
-  text-align: center;
-  box-shadow: 0 0 25px rgba(255, 69, 0, 0.3);
-  backdrop-filter: blur(8px);
-}
-
-.cooldown-section p {
-  margin: 12px 0;
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-
-.cooldown-section p:first-child {
-  color: #ff4500;
-  text-shadow: 0 0 10px #ff4500;
-}
-
-.cooldown-section p:last-child {
-  color: #00ffea;
-  font-size: 1.4rem;
-  letter-spacing: 2px;
-  text-shadow: 0 0 15px #00ffea;
-}
-
-/* Status */
-.status {
-  font-size: 1.1rem;
-  margin: 20px 0;
-  text-align: center;
-}
-
-/* Footer fixed bottom */
-.footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 1.2rem 0;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(12px);
-  border-top: 1px solid rgba(0, 255, 234, 0.2);
-  z-index: 90;
-}
-
-.social-icons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 3rem;
-}
-
-.social-icons a {
-  color: #00ffea;
-  font-size: 2.2rem;
-  text-decoration: none;
-  transition: all 0.4s ease;
-  text-shadow: 0 0 10px #00ffea, 0 0 20px #00ffea;
-}
-
-.social-icons a:hover {
-  transform: translateY(-6px) scale(1.15);
-  text-shadow: 0 0 20px #00ffea, 0 0 40px #00ffea, 0 0 60px #00ffea;
-  color: #ffffff;
-}
-
-/* Responsive */
+/* Responsive chung */
 @media (max-width: 768px) {
   .main-content {
     flex-direction: column;
     align-items: center;
     padding: 80px 15px 120px;
-  }
-
-  .balance-sidebar {
-    width: 90%;
-    position: static;
-    margin-bottom: 20px;
-  }
-
-  .card {
-    padding: 30px;
-    max-width: 100%;
-  }
-
-  .social-icons {
-    gap: 2rem;
-  }
-
-  .social-icons a {
-    font-size: 1.8rem;
   }
 }

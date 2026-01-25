@@ -1,5 +1,6 @@
 // components/FaucetCard.jsx
 import React from 'react';
+import './FaucetCard.css';
 
 function FaucetCard({
   selectedToken,

@@ -1,0 +1,35 @@
+/* BalanceSidebar.css */
+
+.balance-sidebar {
+  width: 220px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid #00ffff;
+  border-radius: 12px;
+  padding: 16px;
+  position: sticky;
+  top: 20px;
+  height: fit-content;
+  text-align: center;
+}
+
+.balance-sidebar .balance-title {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  color: #00ffff;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.balance-sidebar .balance-items div {
+  margin: 8px 0;
+  font-size: 1rem;
+}
+
+/* Responsive cho sidebar */
+@media (max-width: 768px) {
+  .balance-sidebar {
+    width: 90%;
+    position: static;
+    margin-bottom: 20px;
+  }
+}

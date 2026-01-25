@@ -1,5 +1,6 @@
 // components/Header.jsx
 import React from 'react';
+import './Header.css';
 
 function Header({ account, onConnect }) {
   return (

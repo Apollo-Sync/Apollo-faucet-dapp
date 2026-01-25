@@ -1,5 +1,6 @@
 // components/BalanceSidebar.jsx
 import React from 'react';
+import './BalanceSidebar.css';
 
 function BalanceSidebar({ ethBalance, aptTokenBalance, apxTokenBalance }) {
   return (

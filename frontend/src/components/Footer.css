@@ -1,0 +1,44 @@
+/* Footer.css */
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.2rem 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(0, 255, 234, 0.2);
+  z-index: 90;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+}
+
+.social-icons a {
+  color: #00ffea;
+  font-size: 2.2rem;
+  text-decoration: none;
+  transition: all 0.4s ease;
+  text-shadow: 0 0 10px #00ffea, 0 0 20px #00ffea;
+}
+
+.social-icons a:hover {
+  transform: translateY(-6px) scale(1.15);
+  text-shadow: 0 0 20px #00ffea, 0 0 40px #00ffea, 0 0 60px #00ffea;
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .social-icons {
+    gap: 2rem;
+  }
+  
+  .social-icons a {
+    font-size: 1.8rem;
+  }
+}

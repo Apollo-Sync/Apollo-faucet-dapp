@@ -1,0 +1,69 @@
+/* FaucetCard.css */
+
+.card {
+  flex: 1;
+  max-width: 600px;
+  background: rgba(10, 10, 30, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 255, 234, 0.3);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 0 40px rgba(0, 255, 234, 0.25);
+}
+
+.token-selector {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.neon-select {
+  background: #000;
+  color: #00ff88;
+  border: 1px solid #00ff88;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.cooldown-section {
+  background: rgba(255, 69, 0, 0.12);
+  border: 1px solid rgba(255, 69, 0, 0.5);
+  border-radius: 16px;
+  padding: 20px;
+  margin: 24px 0;
+  text-align: center;
+  box-shadow: 0 0 25px rgba(255, 69, 0, 0.3);
+  backdrop-filter: blur(8px);
+}
+
+.cooldown-section p {
+  margin: 12px 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.cooldown-section p:first-child {
+  color: #ff4500;
+  text-shadow: 0 0 10px #ff4500;
+}
+
+.cooldown-section p:last-child {
+  color: #00ffea;
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+  text-shadow: 0 0 15px #00ffea;
+}
+
+.status {
+  font-size: 1.1rem;
+  margin: 20px 0;
+  text-align: center;
+}
+
+/* Responsive card */
+@media (max-width: 768px) {
+  .card {
+    padding: 30px;
+    max-width: 100%;
+  }
+}
