@@ -15,8 +15,8 @@ Just simple dapp, users enter dapp and faucet , done !
 Web3-faucet-dapp/
 ├── contracts/
 │   ├── APXFaucet.sol
-│   └── APXToken.sol
-│   └── ApolloToken.sol
+│   ├── APXToken.sol
+│   ├── ApolloToken.sol
 │   └── TokenFaucet.sol
 ├── scripts/
 │   └── deploy.js
@@ -24,21 +24,21 @@ Web3-faucet-dapp/
 │   ├── public/
 │   │   └── index.html
 │   ├── src/
-│   ├── src/components/
-│   │   ├              ├──BalanceSidebar.jsx
-│   │   ├              ├──FaucetCard.jsx
-│   │   ├              ├──Footer.jsx
-│   │   ├              ├──Header.jsx
+│   │   ├── components/
+│   │   │   ├── BalanceSidebar.jsx
+│   │   │   ├── FaucetCard.jsx
+│   │   │   ├── Footer.jsx
+│   │   │   └── Header.jsx
 │   │   ├── App.jsx
 │   │   ├── App.css
 │   │   ├── index.js
-│   │   ├── index.css 
-│   │   └── ethereum.js   // file chứa address & ABI
-│   └── package.json
+│   │   ├── index.css
+│   │   └── ethereum.js         # chứa contract address & ABI
+│   └── package.json             # package.json của frontend (React/Vite/...)
 ├── hardhat.config.js
-├── .env ( bảo mật, không up lên )
-├── .gitignore ( bảo vệ các tệp bảo mật như .env)
-├── package.json
+├── .env                         # bảo mật – KHÔNG commit lên git
+├── .gitignore
+├── package.json                 # root package.json – chủ yếu cho Hardhat
 └── README.md
 ```
 
@@ -129,6 +129,7 @@ python3 -m http.server 8000
 http://IP:port
 ex: http://23.88.48.244:8000/
 ```
+
 
 
 
