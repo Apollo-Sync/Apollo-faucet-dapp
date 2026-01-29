@@ -1,9 +1,9 @@
 **Contracts**
 ```
-- APT Token     : 0xbf203CBCc6B24315D163C2564d7c2faD6C35bc14
-- APT Faucet    : 0x0D88C8230f780D71c0888d3aDA08dc0727569DEC
-- APX Token     : 0x16f81f1e3E727943bc6090cb06FC03054F91641d
-- APX Faucet    : 0xc9B4C152ec807f78cdb0903E932cb5b9d8bBE417
+- APT Token     : 0xCc4ff3BF08cD1C7C754cb052a30B7914C7279b7F
+- APT Faucet    : 0x01B91EfFb359eC049CD59a7fA0Bd5C9ca8678FF5
+- APX Token     : 0x32B9eFAbbF7b5841b4031D1267855dC548106eaB
+- APX Faucet    : 0x9e51EAE6852ba0860958A3947104dc9FB2aC3532
 ```
 **What is this dapp ?**
 ```
@@ -133,6 +133,7 @@ python3 -m http.server 8000
 http://IP:port
 ex: http://23.88.48.244:8000/
 ```
+
 
 
 
