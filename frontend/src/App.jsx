@@ -47,7 +47,15 @@ function App() {
       alert("Please install EVM wallet!");
     }
   }
-
+  function disconnectWallet() {
+    setAccount('');
+    // Reset balances về mặc định (tùy chọn, để UI sạch sẽ hơn)
+    setEthBalance('0.00');
+    setAptTokenBalance('0.00');
+    setApxTokenBalance('0.00');
+    // Nếu bạn muốn xóa thêm dữ liệu localStorage khác, thêm ở đây
+    // Ví dụ: localStorage.removeItem('someOtherKey');
+  }
   async function switchToSepolia() {
     try {
       await window.ethereum.request({
@@ -246,8 +254,11 @@ function App() {
 
   return (
     <div className="app-container">
-      <Header account={account} onConnect={connectWallet} />
-
+      <Header 
+        account={account} 
+        onConnect={connectWallet}
+        onDisconnect={disconnectWallet}   // <-- Thêm prop này
+      />
       <main className="main-content">
         {account && (
           <BalanceSidebar

@@ -19,3 +19,56 @@
   margin: 0;
   font-size: 1.6rem;
 }
+.connected-wrapper {
+  position: relative;
+}
+
+.wallet-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  background: rgba(10, 10, 30, 0.95);
+  border: 1px solid rgba(0, 255, 234, 0.4);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 255, 234, 0.15);
+  backdrop-filter: blur(8px);
+  min-width: 140px;
+  z-index: 200;
+  overflow: hidden;
+}
+
+.disconnect-btn {
+  width: 100%;
+  padding: 10px 16px;
+  background: transparent;
+  border: none;
+  color: #ff4d4d;               /* Màu đỏ cho Disconnect */
+  font-size: 0.95rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.disconnect-btn:hover {
+  background: rgba(255, 77, 77, 0.15);
+  color: #ff6666;
+}
+
+/* Optional: thêm hiệu ứng neon nhẹ cho dropdown */
+.wallet-dropdown::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(45deg, #00ffea, #ff00aa, #00ffea);
+  border-radius: 10px;
+  z-index: -1;
+  filter: blur(8px);
+  opacity: 0.4;
+  animation: neon-pulse 4s infinite alternate;
+}
+
+@keyframes neon-pulse {
+  0% { opacity: 0.3; }
+  100% { opacity: 0.6; }
+}
