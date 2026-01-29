@@ -11,7 +11,15 @@ contract APXFaucet is Ownable {
 
     mapping(address => uint256) public lastRequest;
 
+    // Event cũ (giữ nguyên)
     event TokensRequested(address indexed user, uint256 amount);
+
+    // Event mới - dùng cho frontend hiển thị danh sách claim real-time
+    event TokensClaimed(
+        address indexed claimant,
+        uint256 amount,
+        uint256 timestamp
+    );
 
     constructor(address _token) Ownable(msg.sender) {
         token = ERC20(_token);
@@ -24,8 +32,11 @@ contract APXFaucet is Ownable {
         lastRequest[msg.sender] = block.timestamp;
         token.transfer(msg.sender, amount);
 
+        // Emit cả hai event (cũ + mới)
         emit TokensRequested(msg.sender, amount);
+        emit TokensClaimed(msg.sender, amount, block.timestamp);
     }
+
     function getRemainingTime(address user) external view returns (uint256) {
         uint256 last = lastRequest[user];
         if (last == 0) {
@@ -37,6 +48,7 @@ contract APXFaucet is Ownable {
         }
         return endTime - block.timestamp;
     }
+
     // Owner có thể nạp thêm token vào faucet
     function fundFaucet(uint256 _amount) external onlyOwner {
         token.transferFrom(msg.sender, address(this), _amount);

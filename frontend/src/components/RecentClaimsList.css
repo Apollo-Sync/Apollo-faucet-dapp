@@ -1,0 +1,31 @@
+.recent-claims-container {
+  position: absolute;
+  top: 120px;          /* điều chỉnh để dưới phần balance hoặc header */
+  right: 20px;
+  width: 280px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid #00ffff;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+  color: #00ffff;
+  z-index: 10;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.claims-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.claims-list li {
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.claims-list li:last-child {
+  border-bottom: none;
+}

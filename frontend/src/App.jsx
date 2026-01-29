@@ -7,6 +7,7 @@ import Header from './components/Header';
 import BalanceSidebar from './components/BalanceSidebar';
 import FaucetCard from './components/FaucetCard';
 import Footer from './components/Footer';
+import RecentClaimsList from './components/RecentClaimsList';
 
 import './App.css';
 
@@ -253,12 +254,15 @@ function App() {
   const getTokenSymbol = () => selectedToken === 'APT' ? 'APT' : 'APX';
 
   return (
-    <div className="app-container">
-      <Header 
-        account={account} 
-        onConnect={connectWallet}
-        onDisconnect={disconnectWallet}   // <-- Thêm prop này
-      />
+   <div className="app-container">
+    <Header 
+      account={account} 
+      onConnect={connectWallet}
+      onDisconnect={disconnectWallet}
+    />
+
+    {/* Thêm wrapper relative để absolute của list bên phải hoạt động đúng */}
+    <div className="main-wrapper" style={{ position: 'relative' }}>
       <main className="main-content">
         {account && (
           <BalanceSidebar
@@ -281,8 +285,12 @@ function App() {
         />
       </main>
 
-      <Footer />
-    </div>
+      {/* Đặt RecentClaimsList ở đây - nó sẽ absolute relative với .main-wrapper */}
+      <RecentClaimsList />
+     </div>
+
+     <Footer />
+   </div>
   );
 }
 
