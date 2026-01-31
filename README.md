@@ -69,7 +69,7 @@ npm -v     # → 10.xx.x
 
 **2. install dependencies**
 ```
-cd Web3-faucet-dapp
+cd Apollo-faucet-dapp
 ```
 
 ```
@@ -135,6 +135,7 @@ python3 -m http.server 8000
 http://IP:port
 ex: http://23.88.48.244:8000/
 ```
+
 
 
 
