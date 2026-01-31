@@ -1,31 +1,59 @@
 .recent-claims-container {
-  position: absolute;
-  top: 120px;          /* điều chỉnh để dưới phần balance hoặc header */
-  right: 20px;
-  width: 280px;
-  background: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  max-width: 620px;               /* ← điều chỉnh độ rộng: 580-680px là gọn nhất, thử 620px trước */
+  margin: 32px auto 60px auto;    /* cách trên 32px (không sát phần claim), dưới 60px, center tự động */
+  
+  background: rgba(0, 0, 0, 0.65); /* tối hơn một chút để nổi bật */
   border: 1px solid #00ffff;
-  border-radius: 12px;
-  padding: 15px;
-  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+  border-radius: 20px;            /* ← bo góc lớn hơn, giống hình khoanh vàng (18-24px) */
+  padding: 18px 24px;             /* padding trên/dưới ít hơn, trái/phải nhiều hơn → gọn */
+  
+  box-shadow: 0 4px 25px rgba(0, 255, 255, 0.25); /* bóng nhẹ, neon hơn */
   color: #00ffff;
-  z-index: 10;
-  max-height: 400px;
+  
+  max-height: 420px;              /* cao vừa đủ cho ~4-5 claim, có scroll nếu nhiều */
   overflow-y: auto;
+  
+  /* Làm viền neon sáng hơn nếu muốn giống theme */
+  border-image: linear-gradient(to right, #00ffff, #00ff9d) 1;
+  /* hoặc giữ border đơn giản như cũ */
 }
 
+/* List bên trong */
 .claims-list {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 12px 0 0 0;             /* giảm margin trên để gọn hơn */
 }
 
 .claims-list li {
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed rgba(0, 255, 255, 0.25); /* dashed để nhẹ nhàng */
+  font-size: 14px;
+  line-height: 1.45;
 }
 
 .claims-list li:last-child {
   border-bottom: none;
+  margin-bottom: 0;
+}
+
+/* Tiêu đề */
+.recent-claims-container h3 {
+  margin: 0 0 16px 0;
+  font-size: 1.25rem;             /* hơi nhỏ hơn một chút */
+  text-align: center;
+  color: #00ffff;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.6); /* hiệu ứng glow nhẹ */
+}
+
+/* Responsive: trên mobile thu gọn hơn */
+@media (max-width: 768px) {
+  .recent-claims-container {
+    max-width: 92%;
+    margin: 24px auto 48px auto;
+    padding: 16px 20px;
+    border-radius: 16px;
+  }
 }

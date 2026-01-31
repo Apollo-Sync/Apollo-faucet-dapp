@@ -54,15 +54,15 @@ body, .app-container {
   transform: translateY(-3px) scale(1.05);
 }
 
-/* Main layout */
+/* Main layout - ĐÃ GIẢM BỚT CÁC RULE GÂY XUNG ĐỘT */
 .main-content {
   flex: 1;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;           /* Giữ nội dung chính (FaucetCard) ở giữa */
   gap: 20px;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 100px 20px 140px; /* Tránh che header & footer */
+  padding: 100px 20px 140px;         /* Tránh che header & footer */
 }
 
 /* Responsive chung */
@@ -78,9 +78,9 @@ body, .app-container {
 /* Thêm cho RecentClaimsList - tránh chồng chéo     */
 /* ──────────────────────────────────────────────── */
 
-/* Tăng padding phải để tạo không gian cho list bên phải */
+/* COMMENT hoặc XÓA padding-right lớn để BalanceSidebar absolute không bị ảnh hưởng */
 .main-content {
-  padding-right: 360px;  /* 320px list + 40px margin an toàn */
+  /* padding-right: 360px; */       /* ← COMMENT hoặc XÓA */
 }
 
 /* Đảm bảo wrapper có chiều cao đủ và relative đúng */
@@ -112,4 +112,14 @@ body, .app-container {
   top: 140px;            /* Dưới header, điều chỉnh theo chiều cao header */
   right: 30px;
   z-index: 50;
+}
+/* Style bổ sung cho BalanceSidebar khi absolute */
+.balance-sidebar {
+  background: rgba(10, 0, 26, 0.75);   /* Nền tối hơn, trong suốt nhẹ */
+  border: 1px solid #00ffff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 0 30px rgba(0, 255, 234, 0.4);  /* Glow neon mạnh hơn */
+  backdrop-filter: blur(8px);                   /* Hiệu ứng kính mờ (nếu browser hỗ trợ) */
+  min-width: 220px;
 }

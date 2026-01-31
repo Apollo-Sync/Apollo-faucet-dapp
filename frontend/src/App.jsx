@@ -254,43 +254,46 @@ function App() {
   const getTokenSymbol = () => selectedToken === 'APT' ? 'APT' : 'APX';
 
   return (
-   <div className="app-container">
-    <Header 
-      account={account} 
-      onConnect={connectWallet}
-      onDisconnect={disconnectWallet}
-    />
+    <div className="app-container">
+      <Header 
+        account={account} 
+        onConnect={connectWallet}
+        onDisconnect={disconnectWallet}
+      />
 
-    {/* Thêm wrapper relative để absolute của list bên phải hoạt động đúng */}
-    <div className="main-wrapper" style={{ position: 'relative' }}>
-      <main className="main-content">
-        {account && (
-          <BalanceSidebar
-            ethBalance={ethBalance}
-            aptTokenBalance={aptTokenBalance}
-            apxTokenBalance={apxTokenBalance}
+      {/* Thêm wrapper relative để absolute của BalanceSidebar và RecentClaimsList hoạt động đúng */}
+      <div className="main-wrapper" style={{ position: 'relative' }}>
+        <main className="main-content">
+          <FaucetCard
+            selectedToken={selectedToken}
+            onSelectToken={setSelectedToken}
+            canClaim={getCanClaim()}
+            timeLeft={getTimeLeft()}
+            formatTime={formatTime}
+            getTokenSymbol={getTokenSymbol}
+            onRequest={() => requestTokens(selectedToken)}
+            status={status}
+            account={account}
           />
+        </main>
+
+        {/* YOUR BALANCE - khối riêng biệt, absolute ở góc phải trên */}
+        {account && (
+          <div className="absolute top-6 right-6 z-30 md:top-8 md:right-8 lg:top-10 lg:right-10">
+            <BalanceSidebar
+              ethBalance={ethBalance}
+              aptTokenBalance={aptTokenBalance}
+              apxTokenBalance={apxTokenBalance}
+            />
+          </div>
         )}
 
-        <FaucetCard
-          selectedToken={selectedToken}
-          onSelectToken={setSelectedToken}
-          canClaim={getCanClaim()}
-          timeLeft={getTimeLeft()}
-          formatTime={formatTime}
-          getTokenSymbol={getTokenSymbol}
-          onRequest={() => requestTokens(selectedToken)}
-          status={status}
-          account={account}
-        />
-      </main>
+        {/* RecentClaimsList vẫn absolute hoặc static tùy CSS */}
+        <RecentClaimsList />
+      </div>
 
-      {/* Đặt RecentClaimsList ở đây - nó sẽ absolute relative với .main-wrapper */}
-      <RecentClaimsList />
-     </div>
-
-     <Footer />
-   </div>
+      <Footer />
+    </div>
   );
 }
 
