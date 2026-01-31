@@ -121,7 +121,7 @@ sudo ufw allow 8000
 
 - running frontend
 ```
-cd ~/Web3-faucet-dapp/frontend
+cd ~/Apollo-faucet-dapp/frontend
 npm install 
 npm run build
 ```
@@ -135,6 +135,7 @@ python3 -m http.server 8000
 http://IP:port
 ex: http://23.88.48.244:8000/
 ```
+
 
 
 
