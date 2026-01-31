@@ -1,31 +1,78 @@
-/* BalanceSidebar.css */
+/* BalanceSidebar.css - full c?p nh?t cho glow vàng d?m */
 
 .balance-sidebar {
-  width: 220px;
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid #00ffff;
-  border-radius: 12px;
-  padding: 16px;
+  width: 100%;
+  background: rgba(30, 20, 0, 0.75);          /* N?n t?i vàng d? glow n?i */
+  border: 2px solid #ffea00;                  /* Vi?n vàng */
+  border-radius: 16px;
+  padding: 20px;
   position: sticky;
   top: 20px;
   height: fit-content;
   text-align: center;
+  box-shadow: 
+    0 0 15px #ffea00,
+    0 0 30px #ffea00,
+    0 0 60px #ffea00,
+    0 0 90px #ffea00;                         /* Glow vàng m?nh cho kh?i */
+  backdrop-filter: blur(8px);
+  transition: box-shadow 0.4s ease;
 }
 
+.balance-sidebar:hover {
+  box-shadow: 
+    0 0 25px #ffea00,
+    0 0 50px #ffea00,
+    0 0 100px #ffea00,
+    0 0 150px #ffea00;                        /* Tang glow khi hover */
+}
+
+/* Tiêu d? YOUR BALANCE */
 .balance-sidebar .balance-title {
-  font-size: 1.2rem;
-  margin-bottom: 12px;
-  color: #00ffff;
+  font-size: 1.4rem;
+  margin-bottom: 16px;
+  color: #ffea00;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 2px;
+  text-shadow: 
+    0 0 10px #ffea00,
+    0 0 20px #ffea00,
+    0 0 40px #ffea00,
+    0 0 60px #ffea00;
+  animation: glow-yellow 2s ease-in-out infinite alternate;
+}
+
+/* Ph?n s? du ETH, APT, APX - thêm glow vàng d?m */
+.balance-sidebar .balance-items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;  /* kho?ng cách gi?a các dòng */
 }
 
 .balance-sidebar .balance-items div {
-  margin: 8px 0;
-  font-size: 1rem;
+  font-size: 1.15rem;
+  font-weight: bold;                    /* Làm d?m hon */
+  color: #fffdd0;                       /* Vàng nh?t cho text */
+  text-shadow: 
+    0 0 8px #ffea00,
+    0 0 15px #ffea00,
+    0 0 25px #ffea00,
+    0 0 35px #ffea00;                   /* Glow vàng m?nh cho s? du */
+  animation: glow-yellow 3s ease-in-out infinite alternate;  /* Nh?p nháy nh? */
+  letter-spacing: 1px;
 }
 
-/* Responsive cho sidebar */
+/* Animation glow vàng chung */
+@keyframes glow-yellow {
+  from {
+    text-shadow: 0 0 10px #ffea00, 0 0 20px #ffea00, 0 0 30px #ffea00;
+  }
+  to {
+    text-shadow: 0 0 20px #ffea00, 0 0 40px #ffea00, 0 0 70px #ffea00, 0 0 100px #ffea00;
+  }
+}
+
+/* Responsive */
 @media (max-width: 768px) {
   .balance-sidebar {
     width: 90%;
