@@ -35,7 +35,6 @@ function App() {
       const accounts = await provider.send("eth_requestAccounts", []);
       setAccount(accounts[0]);
 
-      // Switch sang Sepolia nếu cần (tự động khi connect)
       try {
         const network = await provider.getNetwork();
         if (Number(network.chainId) !== 11155111) {
@@ -48,20 +47,19 @@ function App() {
       alert("Please install EVM wallet!");
     }
   }
+
   function disconnectWallet() {
     setAccount('');
-    // Reset balances về mặc định (tùy chọn, để UI sạch sẽ hơn)
     setEthBalance('0.00');
     setAptTokenBalance('0.00');
     setApxTokenBalance('0.00');
-    // Nếu bạn muốn xóa thêm dữ liệu localStorage khác, thêm ở đây
-    // Ví dụ: localStorage.removeItem('someOtherKey');
   }
+
   async function switchToSepolia() {
     try {
       await window.ethereum.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: "0xaa36a7" }], // Sepolia chainId hex
+        params: [{ chainId: "0xaa36a7" }],
       });
     } catch (switchError) {
       if (switchError.code === 4902) {
@@ -72,11 +70,7 @@ function App() {
               {
                 chainId: "0xaa36a7",
                 chainName: "Sepolia Test Network",
-                nativeCurrency: {
-                  name: "ETH",
-                  symbol: "ETH",
-                  decimals: 18,
-                },
+                nativeCurrency: { name: "ETH", symbol: "ETH", decimals: 18 },
                 rpcUrls: ["https://rpc.sepolia.org"],
                 blockExplorerUrls: ["https://sepolia.etherscan.io"],
               },
@@ -97,7 +91,6 @@ function App() {
     const canClaim = tokenType === 'APT' ? canClaimAPT : canClaimAPX;
     if (!canClaim) return;
 
-    // Check và switch sang Sepolia nếu cần
     if (window.ethereum) {
       try {
         const provider = new ethers.BrowserProvider(window.ethereum);
@@ -124,7 +117,6 @@ function App() {
       const tokenConfig = tokenType === 'APT' ? APT : APX;
       setStatus(`Thành công! Nhận được 100 ${tokenConfig.token.symbol}`);
 
-      // Lưu thời gian claim mới và bắt đầu cooldown
       const now = Math.floor(Date.now() / 1000);
       const key = `lastClaimTime${tokenType}`;
       localStorage.setItem(key, now.toString());
@@ -171,7 +163,6 @@ function App() {
     }
   }
 
-  // Load cooldown từ localStorage khi mount
   useEffect(() => {
     const storedTimeAPT = localStorage.getItem("lastClaimTimeAPT");
     if (storedTimeAPT) {
@@ -198,7 +189,6 @@ function App() {
     }
   }, []);
 
-  // Timer countdown cho APT
   useEffect(() => {
     if (!canClaimAPT && timeLeftAPT > 0) {
       const timer = setInterval(() => {
@@ -215,7 +205,6 @@ function App() {
     }
   }, [canClaimAPT, timeLeftAPT]);
 
-  // Timer countdown cho APX
   useEffect(() => {
     if (!canClaimAPX && timeLeftAPX > 0) {
       const timer = setInterval(() => {
@@ -232,7 +221,6 @@ function App() {
     }
   }, [canClaimAPX, timeLeftAPX]);
 
-  // Fetch balances khi có account + refresh mỗi 10s
   useEffect(() => {
     if (account) {
       fetchBalances();
@@ -248,7 +236,6 @@ function App() {
     return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   };
 
-  // Helper functions
   const getCanClaim = () => selectedToken === 'APT' ? canClaimAPT : canClaimAPX;
   const getTimeLeft = () => selectedToken === 'APT' ? timeLeftAPT : timeLeftAPX;
   const getTokenSymbol = () => selectedToken === 'APT' ? 'APT' : 'APX';
@@ -261,35 +248,37 @@ function App() {
         onDisconnect={disconnectWallet}
       />
 
-      {/* Thêm wrapper relative để absolute của BalanceSidebar và RecentClaimsList hoạt động đúng */}
-      <div className="main-wrapper" style={{ position: 'relative' }}>
-        <main className="main-content">
-          <FaucetCard
-            selectedToken={selectedToken}
-            onSelectToken={setSelectedToken}
-            canClaim={getCanClaim()}
-            timeLeft={getTimeLeft()}
-            formatTime={formatTime}
-            getTokenSymbol={getTokenSymbol}
-            onRequest={() => requestTokens(selectedToken)}
-            status={status}
-            account={account}
-          />
-        </main>
+      <div className="main-layout">
+        {/* Cột trái: nội dung chính */}
+        <div className="content-left">
+          <main className="main-content">
+            <FaucetCard
+              selectedToken={selectedToken}
+              onSelectToken={setSelectedToken}
+              canClaim={getCanClaim()}
+              timeLeft={getTimeLeft()}
+              formatTime={formatTime}
+              getTokenSymbol={getTokenSymbol}
+              onRequest={() => requestTokens(selectedToken)}
+              status={status}
+              account={account}
+            />
+          </main>
 
-        {/* YOUR BALANCE - khối riêng biệt, absolute ở góc phải trên */}
+          {/* RecentClaimsList giữ nguyên vị trí (nếu nó absolute trong component thì vẫn ok) */}
+          <RecentClaimsList />
+        </div>
+
+        {/* Cột phải: YOUR BALANCE riêng biệt, sticky */}
         {account && (
-          <div className="absolute top-6 right-6 z-30 md:top-8 md:right-8 lg:top-10 lg:right-10">
+          <aside className="sidebar-right">
             <BalanceSidebar
               ethBalance={ethBalance}
               aptTokenBalance={aptTokenBalance}
               apxTokenBalance={apxTokenBalance}
             />
-          </div>
+          </aside>
         )}
-
-        {/* RecentClaimsList vẫn absolute hoặc static tùy CSS */}
-        <RecentClaimsList />
       </div>
 
       <Footer />
